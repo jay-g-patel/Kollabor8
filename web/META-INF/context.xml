@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context antiJARLocking="true" path="/kollabor8">
+    <Resource name="jdbc/fypDatabase" auth="Container" type="javax.sql.DataSource"
+    maxActive="100" maxIdle="30" maxWait="10000"
+    username="pateljg" password="can6cram" driverClassName="com.mysql.jdbc.Driver"
+    url="jdbc:mysql://localhost:3306/pateljg_fyp?zeroDateTimeBehavior=convertToNull"/>
+</Context>

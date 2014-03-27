@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+    Document   : viewBoard
+    Created on : 18-Feb-2014, 23:00:11
+    Author     : Jayshree
+-->
+<jsp:root xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:f="http://java.sun.com/jsp/jstl/fmt"
+    version="2.0">
+
+    
+    <jsp:directive.page contentType="text/html" pageEncoding="UTF-8"/>
+
+    <!-- any content can be specified here, e.g.: -->
+    <jsp:element name="text">
+        <script type="text/javascript">
+           // <![CDATA[ 
+            var request = null;
+            
+            function newStoryPopUp()
+            {
+                var defaultText = "textbox's intial text"
+                var text = prompt("prompt",defaultText );
+                if (prompt === defaultText || prompt === null)
+                {}
+                else{
+                    addStory(text);
+                }
+            }
+            
+            function addStory(text)
+            {
+                var storyString = text;
+                
+                request = new XMLHttpRequest();
+                if(request !== null)
+                {
+                    //debugger;
+                    request.open("POST","/kollabor8/board/addStory", true);
+                    request.onreadystatechange = processHTTPResponse;
+                    request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                    request.send("storyDesc="+storyString);
+
+                }
+            }
+            
+            function processHTTPResponse()
+            {
+                if (request.readyState === 4 && request.status === 200) 
+                {
+                    alert("WOOWOO");
+                }
+            }
+            // ]]>
+            </script>
+        <jsp:attribute name="lang">EN</jsp:attribute>
+        <jsp:body>
+            <div style="width:100%;border:1px solid black;text-align: center"><h1><c:out value="${sessionBoard.boardName}"/></h1>
+            </div>
+            
+            
+            <div style="width:100%;border:1px solid red;">
+                <!-- for each column in the board-->
+                <c:forEach var="displayColumn" items="${sessionBoard.boardColumns}">
+                    <div style="width:30%;height: 90%;border:1px solid black; float:left;margin:5px 5px;">
+                        <!-- display the title of the column-->
+                        <div style="border-bottom: 1px solid black; text-align: center;margin-bottom: 10px;">
+                            <h2><c:out value="${displayColumn.description}"/></h2>
+                            <c:out value="${displayColumn.description}"/>
+                            <c:if test="${displayColumn.isFirstColumn}">
+                            <button type="button" onclick="newStoryPopUp()">Add Button</button>
+                            </c:if>
+                        </div>
+                        
+                        
+                        <c:forEach var="columnStory" items="${displayColumn.columnStories}">
+                            <div style="border-bottom: 1px solid black;border-top: 1px solid black; text-align: center; margin-bottom: 1px" ondblclick="alert(document.getElementById(storyDesc))" >
+                                <h2><c:out value="${columnStory.name}"/></h2>
+                                <input type="hidden" id="storyDesc" value="${columnStory.name}"/>
+                                <form method="POST" action="/kollabor8/board/progressStory">
+                                    <input type="hidden" name="columnID" value="${displayColumn.columnID}"/>
+                                    <input type="hidden" name="storyID" value="${columnStory.storyID}"/>
+                                    <input type="submit" value="move forward"/>
+                                </form>
+                                    <button type="button" onclick="alert(document.getElementById(storyDesc))">Quick View</button>
+                                
+                            </div>
+                        </c:forEach>
+                        
+                    </div>
+                    
+                </c:forEach>
+                
+            </div>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        </jsp:body>
+    </jsp:element>
+
+</jsp:root>

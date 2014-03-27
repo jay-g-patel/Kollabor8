@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+    Document   : groupUserPage
+    Created on : 12-Feb-2014, 19:01:46
+    Author     : Jayshree
+-->
+<jsp:root xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:f="http://java.sun.com/jsp/jstl/fmt"
+    version="2.0">
+
+    <jsp:directive.page contentType="text/html" pageEncoding="UTF-8"/>
+
+    <!-- any content can be specified here, e.g.: -->
+    <jsp:element name="text">
+        <jsp:attribute name="lang">EN</jsp:attribute>
+        <jsp:body>Hello Group user!
+            <div>
+                <form method="POST" action="/kollabor8/board/viewBoard">
+                    <input type="submit" value="View Project Board"/>
+                </form>
+            </div>
+        </jsp:body>
+    </jsp:element>
+
+
+</jsp:root>
