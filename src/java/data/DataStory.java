@@ -6,11 +6,13 @@
 
 package data;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
@@ -68,10 +70,11 @@ public class DataStory
         return colID;
     }
     
-    public int addNewStory(String desc, int colID)
+    public int addNewStoryToColumn(String desc, int colID)
     {
-        
-        int storyID = 0;
+        int sID = 0;
+        int cID = colID;
+        String sName = desc;
         try
         {
             // Obtain our environment naming context
@@ -86,34 +89,27 @@ public class DataStory
         try
         {
             Connection connection = ds.getConnection();
-            String query = "INSERT INTO story (columnid,storytype,user,description)VALUES (?,1,0,?)";
-            pstmt = connection.prepareStatement(query);
-            pstmt.setInt(1, colID);
-            pstmt.setString(2, desc);
-            int success = pstmt.executeUpdate();
-            if(success<1)
-                {
-                    throw new SQLException();
-                }
-                
-                    
-                    String q = "SELECT * FROM story WHERE description LIKE'"+desc+"'";
-                    stmt = connection.createStatement();
-                    rs = stmt.executeQuery(q);
-                    rs.next();
-                    if(rs != null)
-                    {
-                        storyID = rs.getInt(1);
-                    }
-                    else {
-                        storyID = -1;
-                    }
-                
+            String sql = "call CreateNewColumnStory(?,?,?);";
+            CallableStatement cStmt = connection.prepareCall(sql);
             
-        } catch (Exception e)
-        {
-            System.out.println("Exception message is " + e.getMessage());
+            cStmt.setInt(1, cID);
+            cStmt.setString(2,sName);
+            
+             cStmt.registerOutParameter(3, java.sql.Types.INTEGER);
+            
+            cStmt.executeUpdate();
+
+             sID = cStmt.getInt(3);
+            
+            
+           
+//            }
         }
-        return storyID;
+        catch(Exception e)
+        {
+            
+            String s = e.getMessage();
+        }
+        return sID;
     }
 }

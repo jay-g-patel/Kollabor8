@@ -30,6 +30,9 @@
                 }
             }
             
+            
+            
+            
             function addStory(text)
             {
                 var storyString = text;
@@ -59,6 +62,9 @@
         <jsp:body>
             <div style="width:100%;border:1px solid black;text-align: center"><h1><c:out value="${sessionBoard.boardName}"/></h1>
             </div>
+            <form method="POST" action="/kollabor8/board/createColumn">
+                <input type="submit" id="creat_Column" value ="Add a Column"/>
+            </form>
             
             
             <div style="width:100%;border:1px solid red;">
@@ -70,7 +76,9 @@
                             <h2><c:out value="${displayColumn.description}"/></h2>
                             <c:out value="${displayColumn.description}"/>
                             <c:if test="${displayColumn.isFirstColumn}">
-                            <button type="button" onclick="newStoryPopUp()">Add Button</button>
+                                <form method="POST" action="/kollabor8/board/createStory">
+                                    <input type="submit" id="create_Story" value ="Add a Story"/>
+                                </form>
                             </c:if>
                         </div>
                         
@@ -84,7 +92,7 @@
                                     <input type="hidden" name="storyID" value="${columnStory.storyID}"/>
                                     <input type="submit" value="move forward"/>
                                 </form>
-                                    <button type="button" onclick="alert(document.getElementById(storyDesc))">Quick View</button>
+                                    
                                 
                             </div>
                         </c:forEach>

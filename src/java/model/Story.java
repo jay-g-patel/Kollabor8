@@ -82,8 +82,11 @@ public class Story
         }
     }
 
-    public void commitStory()
+    public void commitStory(String csName, int csCID)
     {
-       this.storyid = dataStory.addNewStory(name, columnID);
+       int sID = dataStory.addNewStoryToColumn(csName, csCID);
+        setStoryID(sID);
+        setColumnID(csCID);
+        setName(csName);
     }
 }

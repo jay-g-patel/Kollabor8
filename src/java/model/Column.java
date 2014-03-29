@@ -15,6 +15,7 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 import data.DataBColumn;
+import java.util.ArrayList;
 
 /**
  *
@@ -147,5 +148,15 @@ public class Column
     {
         return this.isFirstColumn;
     }
+
+    public void commitNewColumn(int cboardID, String pColumnName)
+    {
+        ArrayList<Integer> columnData = dataBColumn.addNewColumn(cboardID,pColumnName);
+        setColumnID(columnData.get(0));
+        setBoardID(cboardID);
+        setName(pColumnName);
+        setPosition(columnData.get(1));
+    }
+    
     
 }

@@ -55,7 +55,7 @@ public class Users {
             if (connection != null) {
 
                 //query to see if there is a row in the DB with the given user credentials
-                String query = "SELECT userID FROM user WHERE userType = ?"; 
+                String query = "SELECT userType FROM user WHERE userID = ?"; 
                 pstmt = connection.prepareStatement(query);
                 pstmt.setInt(1, typeID);
                 ResultSet rs1 = pstmt.executeQuery();
