@@ -1,0 +1,60 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 01-Apr-2014, 10:28:27
+    Author     : Jayshree
+*/
+
+#column{
+    width:30%;
+    height:90%;
+    border:3px solid #D8D8D8;
+    float:left;
+    margin:5px 5px;
+}
+
+#columnTitleBox{
+    height:75px;
+    border-bottom: 3px solid #D8D8D8; 
+    text-align: center;
+    margin-bottom: 5px;
+
+
+text-align:center;
+background: -webkit-linear-gradient(red, blue); /* For Safari 5.1 to 6.0 */
+background: -o-linear-gradient(red, blue); /* For Opera 11.1 to 12.0 */
+background: -moz-linear-gradient(red, blue); /* For Firefox 3.6 to 15 */
+background: linear-gradient(#F8F8F8, #D8D8D8,#F8F8F8); /* Standard syntax */
+}
+
+#columnTitleText{
+    text-align:center;
+}
+
+#columnContainer{
+     width:100%;
+}
+
+
+#firstColumn{
+    width:400px;
+    text-align: right;
+}
+
+#story{
+    
+     text-align: center; 
+     margin-bottom: 1px 
+}
+
+#spacer{
+    height:1px;
+     border-bottom: 1px solid #D8D8D8;
+     border-top: 1px solid #D8D8D8; 
+}
+#headerFile{
+    width:90%;
+}

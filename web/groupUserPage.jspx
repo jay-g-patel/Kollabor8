@@ -9,20 +9,34 @@
     xmlns:c="http://java.sun.com/jsp/jstl/core"
     xmlns:f="http://java.sun.com/jsp/jstl/fmt"
     version="2.0">
+<head>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/styleSheets/main.css" type="text/css"/>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/styleSheets/groupUserPage.css" type="text/css"/>
+        <title>Kollabor8 - Group Page</title>
+    </head>
+
 
     <jsp:directive.page contentType="text/html" pageEncoding="UTF-8"/>
-
+    
     <!-- any content can be specified here, e.g.: -->
     <jsp:element name="text">
+        
         <jsp:attribute name="lang">EN</jsp:attribute>
-        <jsp:body>Hello Group user!
+        
+        
+            
+            <jsp:body>
+                <div id="pageTitle">
+                <h1>Welcome Group User!</h1>
+                </div>
             <div>
                 <form method="POST" action="/kollabor8/board/viewBoard">
+                    <div>
                     <input type="submit" value="View Project Board"/>
+                    </div>
                 </form>
             </div>
         </jsp:body>
     </jsp:element>
-
 
 </jsp:root>
