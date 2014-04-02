@@ -4,7 +4,11 @@
     Created on : 29-Mar-2014, 17:15:42
     Author     : Jayshree
 -->
-<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+<jsp:root xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:f="http://java.sun.com/jsp/jstl/fmt"
+    version="2.0">
 
     <jsp:directive.page contentType="text/html" pageEncoding="UTF-8"/>
 
@@ -14,8 +18,13 @@
         <jsp:body>
             <div>
             <form method="POST" action="/kollabor8/board/viewBoard">
-                <input type="text" name="storyName"/>
-                <input type="hidden" name="addStory" value="true"/>
+                Story Description : <input type="text" name="storyName"/>
+                Completion Date : <input type="date" name="endDate" min="2014-04-02"/>
+               
+                <c:forEach var="userItem" items="${group.groupUserList}">
+                    <input type="radio" name="storyUserID" value="${userItem.userIDL}"/> <c:out value="${userItem.nameL}"/>         
+                </c:forEach>
+                <input type="hidden" name="viewBoardAction" value="addStory"/>
                 <input type="submit" id="create_Story" value ="Add This Story"/>
             </form>
             </div>

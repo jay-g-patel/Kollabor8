@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+    Document   : storyDetails
+    Created on : 02-Apr-2014, 14:22:24
+    Author     : Jayshree
+-->
+<jsp:root xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:f="http://java.sun.com/jsp/jstl/fmt"
+    version="2.0">
+<head>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/styleSheets/main.css" type="text/css"/>
+    
+       <title>Kollabor8 - View Project Board</title>
+    </head>
+
+    <jsp:directive.page contentType="text/html" pageEncoding="UTF-8"/>
+
+    <!-- any content can be specified here, e.g.: -->
+    <jsp:element name="text">
+        <jsp:attribute name="lang">EN</jsp:attribute>
+        <jsp:body>
+            <body>
+                  <h1 id="pageTitle"><c:out value="${tmpStory.name}"/></h1>
+                  Date = <c:out value="${tmpStory.completionDate}"/>
+                  User = <c:out value="${user.getUserNameByID(tmpStory.user)}"/>
+                
+            </body>
+         
+            
+            
+            
+            
+            
+        </jsp:body>
+    </jsp:element>
+
+</jsp:root>

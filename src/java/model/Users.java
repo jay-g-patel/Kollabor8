@@ -5,6 +5,7 @@
 
 package model;
 
+import data.DataUsers;
 import java.sql.PreparedStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -16,6 +17,7 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 /**
  *
@@ -23,216 +25,103 @@ import java.sql.Statement;
  */
 public class Users {
   
-    private ResultSet rs = null;
-    private PreparedStatement pstmt = null;
-    private Statement stmt = null;
-    DataSource ds = null;
+    DataUsers dataUsers = new DataUsers();
+    int userID = 0;
+    int userType = 0;
+    int groupID = 0;
+    String name = "";
    
     public Users() {
-        
-        // You don't need to make any changes to the try/catch code below
-        try {
-            // Obtain our environment naming context
-            Context initCtx = new InitialContext();
-            Context envCtx = (Context) initCtx.lookup("java:comp/env");
-            // Look up our data source
-            ds = (DataSource)envCtx.lookup("jdbc/fypDatabase");
-        }
-            catch(Exception e) {
-            System.out.println("Exception message is " + e.getMessage());
-        }
-        
-    
-        
+       
     }
 
+    public int getUserIDL()
+    {
+        return userID;
+    }
+
+    public void setUserIDL(int userID)
+    {
+        this.userID = userID;
+    }
+
+    public int getUserTypeL()
+    {
+        return userType;
+    }
+
+    public void setUserTypeL(int userType)
+    {
+        this.userType = userType;
+    }
+
+    public int getGroupIDL()
+    {
+        return groupID;
+    }
+
+    public void setGroupIDL(int groupID)
+    {
+        this.groupID = groupID;
+    }
+
+    public String getNameL()
+    {
+        return name;
+    }
+
+    public void setNameL(String name)
+    {
+        this.name = name;
+    }
+
+    
+    
     public int getUserType(int typeID)
     {
-        try {
-            
-            Connection connection = ds.getConnection();
-
-            if (connection != null) {
-
-                //query to see if there is a row in the DB with the given user credentials
-                String query = "SELECT userType FROM user WHERE userID = ?"; 
-                pstmt = connection.prepareStatement(query);
-                pstmt.setInt(1, typeID);
-                ResultSet rs1 = pstmt.executeQuery();
-                
-                //go to the first row in the result set
-                rs1.next();
-                //if the entry returns a result, the client id of the row is returned, else -1 ios returned
-                if(rs1 != null)
-                {
-                    int userTypeID = rs1.getInt(1);
-                    return userTypeID;
-                }
-                else
-                {
-                    return -1;
-                }
-            }
-            else {
-                return -1;
-            }
-        } catch(SQLException e) {
-                    
-            System.out.println("Exception is ;"+e + ": message is " + e.getMessage());
-            return -1;
-        }
-        
-        
-    
+        int nuserType = dataUsers.getUserType(typeID);
+        this.userType = nuserType;
+        return nuserType;
     }
     
+    
+    
     public int isValid(String name, String pwd) {
-       
-        try {
-            
-            Connection connection = ds.getConnection();
-
-            if (connection != null) {
-
-                //query to see if there is a row in the DB with the given user credentials
-                String query = "SELECT userID FROM user WHERE username = ? AND password = ?"; 
-                pstmt = connection.prepareStatement(query);
-                pstmt.setString(1, name);
-                pstmt.setString(2,pwd);
-                ResultSet rs1 = pstmt.executeQuery();
-                
-                //go to the first row in the result set
-                rs1.next();
-                //if the entry returns a result, the client id of the row is returned, else -1 ios returned
-                if(rs1 != null)
-                {
-                    int clientID = rs1.getInt(1);
-                    return clientID;
-                }
-                else
-                {
-                    return -1;
-                }
-            }
-            else {
-                return -1;
-            }
-        } catch(SQLException e) {
-                    
-            System.out.println("Exception is ;"+e + ": message is " + e.getMessage());
-            return -1;
-        }
-        
-        
+       int isValid = dataUsers.isValid(name, pwd);
+       return isValid;
     }
     
     // TODO (Optional steps 3 and 4) add a user with specified username and password
     public void addUser(String name, String pwd) {
-       
-        //TODO: implement this method so that the specified username and password are inserted into the database.
-
-         try {
-            
-            Connection connection = ds.getConnection();
-
-            if (connection != null) {
-                //SQL query to insert the a row into the clients table with the given username and password
-                pstmt = connection.prepareStatement("INSERT INTO clients ( username, password) VALUES (?,?)");
-                pstmt.setString(1, name);
-                pstmt.setString(2, pwd);
-                int success = pstmt.executeUpdate();
-                //if the insert is successful do nothing, else throw an SQl exception
-                if(success>=1)
-                {
-                    
-                }
-                else
-                {
-                    throw new SQLException();
-                }
-            
-            }
-            
-         }
-            catch(SQLException e) {
-                System.out.println("Exception is ;"+e + ": message is " + e.getMessage());
-               
-         }
-        
+       dataUsers.addUser(name, pwd);
     }
     
     //function to check if a user exists using the username
     public int doesUserExist(String username)
     {
         
-        int clientID = 0;
-        try{
-            Connection connection = ds.getConnection();
-
-            if (connection != null) {
-                //prepared statement to avoid SQL injection
-                pstmt = connection.prepareStatement("SELECT clientid FROM clients WHERE username = ?");
-                pstmt.setString(1, username);
-                ResultSet rs1 = pstmt.executeQuery();
-                rs1.next();
-                //if the user does exists return the client id, else return -1
-                if(rs1 != null)
-                {
-                    clientID = rs1.getInt(1);
-                    
-                }
-                else
-                {
-                    clientID = -1;
-                }
-            }
-        }catch(SQLException e) {
-                    
-            System.out.println("Exception is ;"+e + ": message is " + e.getMessage());
-            clientID =  -1;
+        int clientID = dataUsers.doesUserExist(username);
+        if(clientID >0)
+        {
+            this.name=username;
+            this.userID = clientID;
         }
         return clientID;
+        
     }
     
     public int getGroupID(int userID)
     {
-       try {
-            
-            Connection connection = ds.getConnection();
-
-            if (connection != null) {
-
-                //query to see if there is a row in the DB with the given user credentials
-                String query = "SELECT groupID FROM user WHERE userID =?"; 
-                pstmt = connection.prepareStatement(query);
-                pstmt.setInt(1, userID);
-                ResultSet rs1 = pstmt.executeQuery();
-                
-                //go to the first row in the result set
-                rs1.next();
-                //if the entry returns a result, the client id of the row is returned, else -1 ios returned
-                if(rs1 != null)
-                {
-                    int groupID = rs1.getInt(1);
-                    return groupID;
-                }
-                else
-                {
-                    return -1;
-                }
-            }
-            else {
-                return -1;
-            }
-        } catch(SQLException e) {
-                    
-            System.out.println("Exception is ;"+e + ": message is " + e.getMessage());
-            return -1;
-        }
-        
-        
-     
+        int ngroupID = dataUsers.getGroupID(userID);
+        this.groupID = ngroupID;
+        return ngroupID;
     }
+    
+    public String getUserNameByID(int userID)
+    {
+        return dataUsers.getUserNameByID(userID);
+    }
+    
 }
 
 

@@ -9,9 +9,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
+import model.Users;
 
 /**
  *
@@ -129,6 +131,47 @@ public class DataGroup
             System.out.println("Exception is ;" + e + ": message is " + e.getMessage());
         }
         return groupName;
+    }
+
+    public ArrayList<Users> getGroupUserList(int groupID)
+    {
+        ArrayList<Users> groupUserList = new ArrayList<Users>();
+        try
+        {
+            // Obtain our environment naming context
+            Context initCtx = new InitialContext();
+            Context envCtx = (Context) initCtx.lookup("java:comp/env");
+            // Look up our data source
+            ds = (DataSource) envCtx.lookup("jdbc/fypDatabase");
+        } catch (Exception e)
+        {
+            System.out.println("Exception message is " + e.getMessage());
+        }
+        try
+        {
+            Connection connection = ds.getConnection();
+            if (connection != null)
+            {
+                String query = "SELECT * FROM pateljg_fyp.user WHERE groupID = ?";
+                pstmt = connection.prepareStatement(query);
+                pstmt.setInt(1, groupID);
+                ResultSet rs = pstmt.executeQuery();
+                while(rs.next())
+                {
+                    Users tmpUser = new Users();
+                    tmpUser.setUserIDL(rs.getInt("userID"));
+                    tmpUser.setUserTypeL(rs.getInt("userType"));
+                    tmpUser.setGroupIDL(rs.getInt("groupID"));
+                    tmpUser.setNameL(rs.getString("userName"));
+                    groupUserList.add(tmpUser);
+                }
+                
+            }
+        } catch (SQLException e)
+        {
+            System.out.println("Exception is ;" + e + ": message is " + e.getMessage());
+        }
+        return groupUserList;
     }
     
 }

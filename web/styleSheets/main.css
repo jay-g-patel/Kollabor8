@@ -11,7 +11,7 @@ body,jsp{
     font-family:"Arial", Helvetica, sans-serif;
 }
 
-#pageTitle{
+h1{
 height:125px;
 margin-top: 0px;
 margin-bottom: 0px;
@@ -23,7 +23,4 @@ background: -moz-linear-gradient(red, blue); /* For Firefox 3.6 to 15 */
 background: linear-gradient(#D8D8D8,#F8F8F8 ,#D8D8D8); /* Standard syntax */
 }
 
-h1{
-    margin-top: 0px;
-margin-bottom: 0px;
-}
+

@@ -56,5 +56,17 @@ background: linear-gradient(#F8F8F8, #D8D8D8,#F8F8F8); /* Standard syntax */
      border-top: 1px solid #D8D8D8; 
 }
 #headerFile{
-    width:90%;
+    text-align: left;
+    height:20px;
+    width:50%;
+    margin-right: 0px;
+    vertical-align: top;
+}
+#settingsDiv{
+    text-align: right;
+    height:20px;
+    width:20%;
+    margin-right: 0px;
+    margin-left: 0px;
+    vertical-align: top;
 }

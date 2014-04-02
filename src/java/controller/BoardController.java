@@ -5,8 +5,15 @@
  */
 package controller;
 
+import data.DataStory;
 import java.io.IOException;
 import java.io.PrintWriter;
+import static java.lang.Integer.parseInt;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -30,6 +37,7 @@ public class BoardController extends HttpServlet
     HttpSession session;
     private Board board;
     private Group group;
+    private Story story;
     private boolean forward = true;
 
     public void init()
@@ -52,46 +60,75 @@ public class BoardController extends HttpServlet
         session = request.getSession();
         String action = request.getPathInfo();
         RequestDispatcher dispatcher = null;
-        if (action.equals("/progressStory"))
+        if(action.equals("/viewBoard"))
         {
-            int colID = Integer.parseInt(request.getParameter("columnID"));
-            int newColID = colID + 1;
-            int storyID = Integer.parseInt(request.getParameter("storyID"));
-            try
-            {
-                board.getBoardColumn(colID).getStoryFromColumn(storyID).changeColumn(newColID);
-                board.getBoardColumn(colID).prepareColumn();
-                board.getBoardColumn(newColID).prepareColumn();
-            } catch (Exception e)
-            {
-                System.out.println("Exception message is " + e.getMessage());
-            }
-            dispatcher = this.getServletContext().getRequestDispatcher("/viewBoard.jspx");
-        } else if (action.equals("/viewBoard"))
-        {
-            String c = request.getParameter("addColumn");
-            if(c != null && c.equals("true"))
-            {
-                
-                String columnName = request.getParameter("columnName");
-                Column tmpColumn = new Column();
-                tmpColumn.commitNewColumn(board.getBoardID(), columnName);
-                
-            }
-            String s = request.getParameter("addStory");
-            if(s != null && s.equals("true"))
-            {
-                String storyDesc = request.getParameter("storyName");
-                Story tmpStory = new Story();
-                tmpStory.commitStory(storyDesc,board.getColumnIDAtPosition(0));
-                response.sendRedirect("../viewBoard.jspx");
-                forward = false;            
-            }
             board = new Board();
             group = (Group) session.getAttribute("userGroup");
             board.setBoardID(group.getBoardID());
             board.createBoard();
-            session.setAttribute("sessionBoard", board);
+           
+            session.setAttribute("group", group);
+            this.getServletContext().setAttribute("group", group);
+            
+            String viewBoardAction = request.getParameter("viewBoardAction");
+            if(viewBoardAction != null && viewBoardAction.equals("addColumn"))
+            {                
+                String columnName = request.getParameter("columnName");
+                Column tmpColumn = new Column();
+                tmpColumn.commitNewColumn(board.getBoardID(), columnName);
+            }
+            else if(viewBoardAction != null && viewBoardAction.equals("addStory"))
+            {
+                String storyDesc = request.getParameter("storyName");
+                int storyUser = 0;
+                Date completionDate = null;
+                if(!request.getParameter("endDate").equals(""))
+                {
+                    try
+                    {
+                        completionDate = new SimpleDateFormat("yyyy-mm-dd").parse(request.getParameter("endDate"));
+                    } catch (ParseException ex)
+                    {
+                        Logger.getLogger(BoardController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                if(!request.getParameter("storyUserID").equals(""))
+                {
+                    storyUser = parseInt(request.getParameter("storyUserID"));
+                }
+                Story tmpStory = new Story();
+                
+                if(completionDate != null)
+                {
+                    tmpStory.enterCompletionDate(completionDate);
+                }
+                if(storyUser != 0)
+                {
+                    tmpStory.setUser(storyUser);
+                }
+                tmpStory.commitStory(storyDesc,board.getColumnIDAtPosition(0));
+                tmpStory.enterCompletionDate(completionDate);
+                tmpStory.updateStoryUser(storyUser);
+                response.sendRedirect("../viewBoard.jspx");
+                forward = false;            
+            }
+            else if(viewBoardAction != null && viewBoardAction.equals("progressStory"))
+            {
+                int colID = Integer.parseInt(request.getParameter("columnID"));
+                int newColID = colID + 1;
+                int storyID = Integer.parseInt(request.getParameter("storyID"));
+                try
+                {
+                    board.getBoardColumn(colID).getStoryFromColumn(storyID).changeColumn(newColID);
+                    board.getBoardColumn(colID).prepareColumn();
+                    board.getBoardColumn(newColID).prepareColumn();
+                } catch (Exception e)
+                {
+                    System.out.println("Exception message is " + e.getMessage());
+                }
+            }
+             board.createBoard();
+             session.setAttribute("sessionBoard", board);
             this.getServletContext().setAttribute("sessionBoard", board);
             if(forward){
             dispatcher = this.getServletContext().getRequestDispatcher("/viewBoard.jspx");
@@ -104,6 +141,30 @@ public class BoardController extends HttpServlet
         else if (action.equals("/createColumn"))
         {
             dispatcher = this.getServletContext().getRequestDispatcher("/createColumn.jspx");
+        }
+        else if(action.equals("/viewBoardSettings"))
+        {
+            dispatcher = this.getServletContext().getRequestDispatcher("/boardSettings.jspx");
+        }
+        else if(action.equals("/viewStoryDetails"))
+        {
+            story = new Story();
+            int storyID = Integer.parseInt(request.getParameter("storyID"));
+            int colID = Integer.parseInt(request.getParameter("columnID"));
+            if(colID == 0)
+            {
+                DataStory ds = new DataStory();
+                story = ds.getStoryDetailsByID(storyID);
+            }
+            else
+            {
+                story = board.getBoardColumn(colID).getStoryFromColumn(storyID);
+            }
+            session = request.getSession();
+            session.setAttribute("tmpStory", story);
+            this.getServletContext().setAttribute("tmpStory", story);
+            
+            dispatcher = this.getServletContext().getRequestDispatcher("/storyDetails.jspx");
         }
 
 if(forward)

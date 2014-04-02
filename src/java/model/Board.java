@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import javax.sql.DataSource;
 
 import data.DataBoard;
+import java.util.ArrayList;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -27,6 +28,7 @@ public class Board
     public int boardID;
     public String boardName = "";
     public Column[] boardColumnsArray;
+    public int groupID;
     private DataBoard dataBoard = new DataBoard();
 
     public Board()
@@ -57,6 +59,7 @@ public class Board
         
         boardColumnsArray = new Column[colCount];
         rsColRetrieval = dataBoard.getBoardColumns(boardID);
+        
         
         try{
             while( rsColRetrieval.next())
@@ -118,4 +121,6 @@ public class Board
         return this.boardColumnsArray.length;
     }
 
+
+    
 }

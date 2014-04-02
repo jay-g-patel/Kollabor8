@@ -12,6 +12,8 @@
 <head>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/styleSheets/main.css" type="text/css"/>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/styleSheets/viewBoard.css" type="text/css"/>
+    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+
   
         <title>Kollabor8 - View Project Board</title>
     </head>
@@ -68,9 +70,14 @@
             </script>
         <jsp:attribute name="lang">EN</jsp:attribute>
         <jsp:body>
-            <div id="headerFile"><jsp:directive.include file="/header.jspx" /></div>
             <div>
-            <h1><c:out value="${sessionBoard.boardName}"/></h1>
+            <div id="headerFile"><jsp:directive.include file="/header.jspx" /></div>
+            <div id="settingsDiv"><form method="POST" action="/kollabor8/board/viewBoardSettings">
+                                        <input type="submit" value ="View Settings"/>
+                                    </form> </div>
+            </div>
+            <div>
+            <h1 id="pageTitle"><c:out value="${sessionBoard.boardName}"/></h1>
             <form method="POST" action="/kollabor8/board/createColumn">
                 <input type="submit" id="creat_Column" value ="Add a Column"/>
             </form>
@@ -97,10 +104,15 @@
                         
                         
                         <c:forEach var="columnStory" items="${displayColumn.columnStories}">
-                            <div id="story" ondblclick="alert(document.getElementById(storyDesc))" >
-                                <h4><c:out value="${columnStory.name}"/></h4>
+                            <c:url var="url" value="/board/viewStoryDetails">
+                                <c:param name="storyID" value="${columnStory.storyID}"/>
+                                <c:param name="columnID" value="${displayColumn.columnID}"/>
+                            </c:url>
+                            <div id="story" style="src:${url}" >
+                                <h4><a href="${url}"><c:out value="${columnStory.name}"/></a></h4>
                                 <input type="hidden" id="storyDesc" value="${columnStory.name}"/>
-                                <form method="POST" action="/kollabor8/board/progressStory">
+                                <form method="POST" action="/kollabor8/board/viewBoard">
+                                    <input type="hidden" name="viewBoardAction" value="progressStory"/>
                                     <input type="hidden" name="columnID" value="${displayColumn.columnID}"/>
                                     <input type="hidden" name="storyID" value="${columnStory.storyID}"/>
                                     <input type="submit" value="move forward"/>

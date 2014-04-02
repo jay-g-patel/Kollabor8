@@ -14,6 +14,7 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 import data.DataStory;
+import java.util.Date;
 
 /**
  *
@@ -29,12 +30,29 @@ public class Story
     int user = 0;
     int columnID;
     String name = "";
+    Date completionDate = new Date();
+
+    public Date getCompletionDate()
+    {
+        return completionDate;
+    }
+
+    public void setCompletionDate(Date completionDate)
+    {
+        this.completionDate = completionDate;
+    }
 
     public Story()
     {
 
     }
 
+    public Story(int sID)
+    {
+        dataStory.getStoryDetailsByID(sID);
+        
+    }
+    
     public Story(int sID, int sType, int sUserID, String sDescription)
     {
         this.storyid = sID;
@@ -72,6 +90,54 @@ public class Story
     {
         this.columnID = colID;
     }
+
+    public int getType()
+    {
+        return type;
+    }
+
+    public void setType(int type)
+    {
+        this.type = type;
+    }
+
+    public int getUser()
+    {
+        return user;
+    }
+
+    public void setUser(int user)
+    {
+        this.user = user;
+    }
+    
+    public void updateStoryUser(int userID)
+    {
+        int success = dataStory.updateStoryUser(this.storyid, userID);
+        if(success == 0)
+        {
+            this.user = 0;
+        }
+        else
+        {
+            this.user = userID;
+        }
+    }
+    
+    public void enterCompletionDate(Date date)
+    {
+        
+        int success = dataStory.updateCompletionDate(this.storyid, date.toString());
+        if(success == 0)
+        {
+            this.completionDate = null;
+        }
+        else
+        {
+            this.completionDate = date;
+        }
+    }
+    
 
     public void changeColumn(int columnID)
     {

@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.servlet.http.HttpSession;
 import data.DataGroup;
+import java.util.ArrayList;
 
 /**
  *
@@ -79,5 +80,11 @@ public class Group
     {
         this.boardID = id;
     }
+    
+    public ArrayList<Users> getGroupUserList()
+    { 
+        return dataGroup.getGroupUserList(this.groupID);
+    }
+    
     
 }
