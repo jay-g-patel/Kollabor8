@@ -23,12 +23,11 @@
         <jsp:body>
             <body>
                   <h1 id="pageTitle"><c:out value="${tmpStory.name}"/></h1>
-                  Date = <c:out value="${tmpStory.completionDate}"/>
+                  Completion Date = <c:out value="${tmpStory.completionDateAsString}"/>
+                  <br/>
                   <c:if test="${tmpStory.user >= 0}">
                       User = <c:out value="${tmpStory.userName}"/>
                   </c:if>
-                  
-                
             </body>
          
             

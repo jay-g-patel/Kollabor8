@@ -38,6 +38,12 @@ public class Story
     {
         return completionDate;
     }
+    public String getCompletionDateAsString()
+    {
+        DateFormat df = new SimpleDateFormat("yyyy/MM/dd");
+        String dateString = df.format(this.completionDate);
+        return dateString;
+    }
 
     public void setCompletionDate(Date completionDate)
     {

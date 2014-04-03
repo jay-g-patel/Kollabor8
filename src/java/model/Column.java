@@ -15,6 +15,7 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 import data.DataBColumn;
+import java.util.Date;
 import java.util.ArrayList;
 
 /**
@@ -103,7 +104,13 @@ public class Column
                     int sType = colStories.getInt(3);
                     int sUserID = colStories.getInt(4);
                     String sDescription = colStories.getString(5);
+                    Date completionDate = colStories.getDate("endDate");
                     Story tmpStory = new Story(sID, sType, sUserID, sDescription);
+                    if(completionDate != null)
+                    {
+                    tmpStory.enterCompletionDate(completionDate);
+                    }
+                    tmpStory.setColumnID(this.columnID);
                     storyArray[aID] = tmpStory;
                     aID++;
                 }

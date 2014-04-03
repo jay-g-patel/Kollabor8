@@ -87,7 +87,7 @@ public class BoardController extends HttpServlet
                 {
                     try
                     {
-                        completionDate = new SimpleDateFormat("yyyy-mm-dd").parse(request.getParameter("endDate"));
+                        completionDate = new SimpleDateFormat("yyyy-MM-dd").parse(request.getParameter("endDate"));
                     } catch (ParseException ex)
                     {
                         Logger.getLogger(BoardController.class.getName()).log(Level.SEVERE, null, ex);
@@ -159,6 +159,7 @@ public class BoardController extends HttpServlet
             }
             else
             {
+                board.getBoardColumn(colID).prepareColumn();
                 story = board.getBoardColumn(colID).getStoryFromColumn(storyID);
             }
             session = request.getSession();
