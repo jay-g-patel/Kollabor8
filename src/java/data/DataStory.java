@@ -206,7 +206,7 @@ public class DataStory
         getConnection();
         try
         {
-            String query = "UPDATE story SET `endDate` = ? WHERE `storyID` = ?;";
+            String query = "UPDATE story SET endDate = ? WHERE storyID = ?";
             pstmt = nConnection.prepareStatement(query);
             pstmt.setString(1, date);
             pstmt.setInt(2, storyid);
@@ -235,5 +235,30 @@ public class DataStory
             System.out.println("Exception message is " + e.getMessage());
         }
         return success;
+    }
+
+    public String getStoryOwnerNameByUserID(int id)
+    {
+        String userName = null;
+        getConnection();
+        try
+        {
+            String query = "SELECT userName FROM user WHERE userID = ?";
+            pstmt = nConnection.prepareStatement(query);
+            pstmt.setInt(1, id);
+            ResultSet success = pstmt.executeQuery();
+            if(success.next())
+                {
+                    userName = success.getString("userName");
+                }
+                else
+                {
+                    throw new SQLException();
+                }
+        } catch (Exception e)
+        {
+            System.out.println("Exception message is " + e.getMessage());
+        }
+        return userName;
     }
 }

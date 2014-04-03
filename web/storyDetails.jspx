@@ -24,7 +24,10 @@
             <body>
                   <h1 id="pageTitle"><c:out value="${tmpStory.name}"/></h1>
                   Date = <c:out value="${tmpStory.completionDate}"/>
-                  User = <c:out value="${user.getUserNameByID(tmpStory.user)}"/>
+                  <c:if test="${tmpStory.user >= 0}">
+                      User = <c:out value="${tmpStory.userName}"/>
+                  </c:if>
+                  
                 
             </body>
          

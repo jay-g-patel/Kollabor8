@@ -14,6 +14,8 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 import data.DataStory;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -126,8 +128,10 @@ public class Story
     
     public void enterCompletionDate(Date date)
     {
-        
-        int success = dataStory.updateCompletionDate(this.storyid, date.toString());
+        //this should be in the correct format!!!!
+        DateFormat df = new SimpleDateFormat("yyyy/MM/dd");
+        String dateString = df.format(date);
+        int success = dataStory.updateCompletionDate(this.storyid, dateString);
         if(success == 0)
         {
             this.completionDate = null;
@@ -154,5 +158,16 @@ public class Story
         setStoryID(sID);
         setColumnID(csCID);
         setName(csName);
+    }
+    
+    public String getUserName()
+    {
+        int id = this.getUser();
+        String userName = dataStory.getStoryOwnerNameByUserID(id);
+        if(userName == null)
+        {
+            userName = "";
+        }
+        return userName;
     }
 }

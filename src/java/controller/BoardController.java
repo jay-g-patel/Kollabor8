@@ -9,6 +9,7 @@ import data.DataStory;
 import java.io.IOException;
 import java.io.PrintWriter;
 import static java.lang.Integer.parseInt;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -92,12 +93,12 @@ public class BoardController extends HttpServlet
                         Logger.getLogger(BoardController.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
-                if(!request.getParameter("storyUserID").equals(""))
+                if(request.getParameter("storyUserID") != null)
                 {
                     storyUser = parseInt(request.getParameter("storyUserID"));
                 }
                 Story tmpStory = new Story();
-                
+                tmpStory.commitStory(storyDesc,board.getColumnIDAtPosition(0));
                 if(completionDate != null)
                 {
                     tmpStory.enterCompletionDate(completionDate);
@@ -106,9 +107,9 @@ public class BoardController extends HttpServlet
                 {
                     tmpStory.setUser(storyUser);
                 }
-                tmpStory.commitStory(storyDesc,board.getColumnIDAtPosition(0));
-                tmpStory.enterCompletionDate(completionDate);
-                tmpStory.updateStoryUser(storyUser);
+                
+//                tmpStory.enterCompletionDate(completionDate);
+//                tmpStory.updateStoryUser(storyUser);
                 response.sendRedirect("../viewBoard.jspx");
                 forward = false;            
             }
