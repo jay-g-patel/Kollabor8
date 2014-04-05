@@ -105,7 +105,7 @@ public class BoardController extends HttpServlet
                 }
                 if(storyUser != 0)
                 {
-                    tmpStory.setUser(storyUser);
+                    tmpStory.updateStoryUser(storyUser);
                 }
                 
 //                tmpStory.enterCompletionDate(completionDate);
@@ -145,7 +145,7 @@ public class BoardController extends HttpServlet
         }
         else if(action.equals("/viewBoardSettings"))
         {
-            dispatcher = this.getServletContext().getRequestDispatcher("/boardSettings.jspx");
+            dispatcher = this.getServletContext().getRequestDispatcher("/board/boardSetting.jspx");
         }
         else if(action.equals("/viewStoryDetails"))
         {

@@ -32,7 +32,7 @@ public class Story
     int user = 0;
     int columnID;
     String name = "";
-    Date completionDate = new Date();
+    Date completionDate = null;
 
     public Date getCompletionDate()
     {
@@ -40,9 +40,28 @@ public class Story
     }
     public String getCompletionDateAsString()
     {
+        String dateString = "";
+        if(this.completionDate != null)
+        {
         DateFormat df = new SimpleDateFormat("yyyy/MM/dd");
-        String dateString = df.format(this.completionDate);
+        dateString = df.format(this.completionDate);
+        }
         return dateString;
+    }
+    
+    public boolean getOverdue()
+    {
+        boolean overdue = false;                
+        Date today = new Date();
+        if(this.completionDate.after(today))
+        {
+            overdue = false;
+        }
+        else
+        {
+            overdue = true;
+        }
+        return overdue;
     }
 
     public void setCompletionDate(Date completionDate)
