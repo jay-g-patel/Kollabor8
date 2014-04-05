@@ -66,6 +66,7 @@ public class Controller extends HttpServlet
                 //if combination is valid a session is created here
                 session = request.getSession();
                 session.setAttribute("user", username);
+                session.setMaxInactiveInterval(500);
                 //creates a new lesson selection for the user and stores it in the session
                 //redirect user to the lesson timetable view
                 dispatcher = this.getServletContext().getRequestDispatcher("/adminPage.jspx");

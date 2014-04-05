@@ -72,6 +72,7 @@ public class BoardController extends HttpServlet
             this.getServletContext().setAttribute("group", group);
             
             String viewBoardAction = request.getParameter("viewBoardAction");
+            String update = request.getParameter("update");
             if(viewBoardAction != null && viewBoardAction.equals("addColumn"))
             {                
                 String columnName = request.getParameter("columnName");
@@ -97,8 +98,18 @@ public class BoardController extends HttpServlet
                 {
                     storyUser = parseInt(request.getParameter("storyUserID"));
                 }
-                Story tmpStory = new Story();
-                tmpStory.commitStory(storyDesc,board.getColumnIDAtPosition(0));
+                Story tmpStory = null;
+                if(update != null && update.equals("true"))
+                {
+                    tmpStory = (Story)session.getAttribute("tmpStory");
+                    tmpStory.updateName(storyDesc);
+                }
+                else
+                {
+                    tmpStory = new Story();
+                    tmpStory.commitStory(storyDesc,board.getColumnIDAtPosition(0));
+                }
+                
                 if(completionDate != null)
                 {
                     tmpStory.enterCompletionDate(completionDate);
@@ -108,9 +119,45 @@ public class BoardController extends HttpServlet
                     tmpStory.updateStoryUser(storyUser);
                 }
                 
-//                tmpStory.enterCompletionDate(completionDate);
-//                tmpStory.updateStoryUser(storyUser);
-                response.sendRedirect("../viewBoard.jspx");
+                session.removeAttribute("tmpStory");
+               response.sendRedirect("../viewBoard.jspx");
+                forward = false;            
+            }
+            else if(viewBoardAction != null && viewBoardAction.equals("updateStory"))
+            {
+                String storyDesc = request.getParameter("storyName");
+                int storyUser = 0;
+                Date completionDate = null;
+                if(!request.getParameter("endDate").equals(""))
+                {
+                    try
+                    {
+                        completionDate = new SimpleDateFormat("yyyy-MM-dd").parse(request.getParameter("endDate"));
+                    } catch (ParseException ex)
+                    {
+                        Logger.getLogger(BoardController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                if(request.getParameter("storyUserID") != null)
+                {
+                    storyUser = parseInt(request.getParameter("storyUserID"));
+                }
+                
+                   Story tmpStory = (Story)session.getAttribute("tmpStory");
+                    tmpStory.updateName(storyDesc);
+                
+                
+                if(completionDate != null)
+                {
+                    tmpStory.enterCompletionDate(completionDate);
+                }
+                if(storyUser != 0)
+                {
+                    tmpStory.updateStoryUser(storyUser);
+                }
+                
+                session.removeAttribute("tmpStory");
+               response.sendRedirect("../viewBoard.jspx");
                 forward = false;            
             }
             else if(viewBoardAction != null && viewBoardAction.equals("progressStory"))
@@ -135,9 +182,17 @@ public class BoardController extends HttpServlet
             dispatcher = this.getServletContext().getRequestDispatcher("/viewBoard.jspx");
             }
         }
+        else if(action.equals("/editStory"))
+        {
+            dispatcher = this.getServletContext().getRequestDispatcher("/editStory.jspx");
+            session.getAttribute("tmpStory");
+        }
         else if (action.equals("/createStory"))
         {
+            session.removeAttribute("tmpStory");
             dispatcher = this.getServletContext().getRequestDispatcher("/createStory.jspx");
+            session.getAttribute("tmpStory");
+            
         }
         else if (action.equals("/createColumn"))
         {

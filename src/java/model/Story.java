@@ -167,6 +167,16 @@ public class Story
         }
     }
     
+    public String getDateAsFormattedString()
+    {
+        String formattedDate = "";
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        if(this.completionDate != null)
+        {
+            formattedDate = df.format(this.completionDate);
+        }
+        return formattedDate;
+    }
 
     public void changeColumn(int columnID)
     {
@@ -194,5 +204,15 @@ public class Story
             userName = "";
         }
         return userName;
+    }
+
+    public void updateName(String storyDesc)
+    {
+        int i = dataStory.updateStoryName(this.storyid, storyDesc);
+        if(i !=0 )
+        {
+            this.name = storyDesc;
+        }
+        
     }
 }

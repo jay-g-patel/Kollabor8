@@ -261,4 +261,22 @@ public class DataStory
         }
         return userName;
     }
+
+    public int updateStoryName(int storyid, String storyDesc)
+    {
+        int success = 0;
+        getConnection();
+        try
+        {
+            String query = "UPDATE story SET `description` = ? WHERE `storyID` = ?;";
+            pstmt = nConnection.prepareStatement(query);
+            pstmt.setString(1, storyDesc);
+            pstmt.setInt(2, storyid);
+            success = pstmt.executeUpdate();
+        } catch (Exception e)
+        {
+            System.out.println("Exception message is " + e.getMessage());
+        }
+        return success;
+    }
 }

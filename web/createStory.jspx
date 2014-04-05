@@ -9,25 +9,34 @@
     xmlns:c="http://java.sun.com/jsp/jstl/core"
     xmlns:f="http://java.sun.com/jsp/jstl/fmt"
     version="2.0">
-
+    <head>
+        <title>Kollabor8 - create Story</title>
+    </head>
+    
     <jsp:directive.page contentType="text/html" pageEncoding="UTF-8"/>
 
     <!-- any content can be specified here, e.g.: -->
-    <jsp:element name="text">
+    
+        <jsp:element name="text">
+       
+        
         <jsp:attribute name="lang">EN</jsp:attribute>
         <jsp:body>
-            <div>
-            <form method="POST" action="/kollabor8/board/viewBoard">
-                Story Description : <input type="text" name="storyName"/>
-                Completion Date : <input type="date" name="endDate" min="2014-04-02"/>
-               
-                <c:forEach var="userItem" items="${group.groupUserList}">
-                    <input type="radio" name="storyUserID" value="${userItem.userIDL}"/> <c:out value="${userItem.nameL}"/>         
-                </c:forEach>
-                <input type="hidden" name="viewBoardAction" value="addStory"/>
-                <input type="submit" id="create_Story" value ="Add This Story"/>
-            </form>
-            </div>
+                    
+                    <div>
+                        <form method="POST" action="/kollabor8/board/viewBoard">
+                            Story Description : <input type="text" name="storyName"/>
+                            Completion Date : <input type="date" name="endDate" min="2014-04-02"/>
+
+                            <c:forEach var="userItem" items="${group.groupUserList}">
+                                <input type="radio" name="storyUserID" value="${userItem.userIDL}"/> <c:out value="${userItem.nameL}"/>         
+                            </c:forEach>
+                            <input type="hidden" name="viewBoardAction" value="addStory"/>
+                            <input type="submit" id="create_Story" value ="Add This Story"/>
+                        </form>
+                    </div>
+                
+            
         </jsp:body>
     </jsp:element>
 
