@@ -121,6 +121,24 @@ public class Board
         return this.boardColumnsArray.length;
     }
 
-
+    public int getStorycolumnPositionByID(int id)
+    {
+        return dataBoard.getStorycolumnPositionByID(id);
+    }
+    
+    public Story getStoryByID(int id)
+    {
+        int colID = getStorycolumnPositionByID(id);
+        Story s = this.getBoardColumn(colID).getStoryFromColumn(id);
+        return s;
+    }
+    
+    public String getStoryNameByStringID(String idString)
+    {
+        int id = Integer.parseInt(idString);
+        int colID = getStorycolumnPositionByID(id);
+        Story s = this.getBoardColumn(colID).getStoryFromColumn(id);
+        return s.getName();
+    }
     
 }

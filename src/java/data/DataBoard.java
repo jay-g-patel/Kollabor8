@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
+import model.Story;
 
 /**
  *
@@ -28,9 +29,8 @@ public class DataBoard
        
     }
 
-    public String getBoardName(int boardID)
+    private void getConnection()
     {
-        String name = "";
          try
         {
             // Obtain our environment naming context
@@ -42,6 +42,12 @@ public class DataBoard
         {
             System.out.println("Exception message is " + e.getMessage());
         }
+    }
+    
+    public String getBoardName(int boardID)
+    {
+        String name = "";
+        getConnection();
         try
         {
             Connection connection = ds.getConnection();
@@ -68,17 +74,7 @@ public class DataBoard
     public int getColumnCount(int boardID)
     {
         int colCount = 0;
-         try
-        {
-            // Obtain our environment naming context
-            Context initCtx = new InitialContext();
-            Context envCtx = (Context) initCtx.lookup("java:comp/env");
-            // Look up our data source
-            ds = (DataSource) envCtx.lookup("jdbc/fypDatabase");
-        } catch (Exception e)
-        {
-            System.out.println("Exception message is " + e.getMessage());
-        }
+        getConnection();
         try
         {
             Connection connection = ds.getConnection();
@@ -104,17 +100,7 @@ public class DataBoard
     public ResultSet getBoardColumns(int boardID)
     {
         ResultSet rs = null;
-         try
-        {
-            // Obtain our environment naming context
-            Context initCtx = new InitialContext();
-            Context envCtx = (Context) initCtx.lookup("java:comp/env");
-            // Look up our data source
-            ds = (DataSource) envCtx.lookup("jdbc/fypDatabase");
-        } catch (Exception e)
-        {
-            System.out.println("Exception message is " + e.getMessage());
-        }
+        getConnection();
         try
         {
             Connection connection = ds.getConnection();
@@ -131,5 +117,54 @@ public class DataBoard
             System.out.println("Exception is ;" + e + ": message is " + e.getMessage());
         }
         return rs;
+    }
+    
+     public int getStorycolumnPositionByID(int id)
+    {
+        getConnection();
+        
+        int pos = 0;
+        String q = "SELECT bc.position FROM boardcolumn bc LEFT OUTER JOIN Story sto ON sto.columnid = bc.columnID WHERE sto.storyID = ?";
+        try
+        {
+        Connection connection = ds.getConnection();
+        pstmt = connection.prepareStatement(q);
+        pstmt.setInt(1, id);
+        ResultSet ids = pstmt.executeQuery();
+        while(ids.next())
+            {
+                pos = ids.getInt(1);
+            }
+        }catch(SQLException e)
+        {
+            System.out.println("Exception message is " + e.getMessage());
+        }
+            return pos;
+    }
+     
+     public Story getStoryByID(int id)
+    {
+        getConnection();
+        Story s = new Story();
+        int pos = 0;
+        String q = "SELECT * FROM Story WHERE storyID = ?";
+        try
+        {
+        Connection connection = ds.getConnection();
+        pstmt = connection.prepareStatement(q);
+        pstmt.setInt(1, id);
+        ResultSet ids = pstmt.executeQuery();
+        while(ids.next())
+            {
+                s.setColumnID(ids.getInt(2));
+                s.setName(ids.getString(5));
+                s.setStoryID(ids.getInt(1));
+                s.setUser(ids.getInt(4));
+            }
+        }catch(SQLException e)
+        {
+            System.out.println("Exception message is " + e.getMessage());
+        }
+            return s;
     }
 }

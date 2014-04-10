@@ -68,6 +68,8 @@ public class BoardController extends HttpServlet
             board.setBoardID(group.getBoardID());
             board.createBoard();
            
+//            session.setAttribute("board", board);
+//            this.getServletContext().setAttribute("board", board);
             session.setAttribute("group", group);
             this.getServletContext().setAttribute("group", group);
             
@@ -99,6 +101,7 @@ public class BoardController extends HttpServlet
                     storyUser = parseInt(request.getParameter("storyUserID"));
                 }
                 Story tmpStory = null;
+                //get the right story to work with
                 if(update != null && update.equals("true"))
                 {
                     tmpStory = (Story)session.getAttribute("tmpStory");
@@ -165,11 +168,45 @@ public class BoardController extends HttpServlet
                 int colID = Integer.parseInt(request.getParameter("columnID"));
                 int newColID = colID + 1;
                 int storyID = Integer.parseInt(request.getParameter("storyID"));
+                story = board.getBoardColumn(colID).getStoryFromColumn(storyID);
+                if(board.getBoardColumn(colID).getPosition() < 3)
+                {
+                   if(story.doesStoryHaveDependencies())
+                   {
+                       boolean canMove = true;
+                       for(int i = 0; i < story.getDependencies().size(); i++)
+                       {
+                         int pos = board.getStorycolumnPositionByID(story.getDependencies().get(i));
+                          if(pos < 3 )
+                          {
+                              //if the column position is not 3, the dependent story has not been worked on
+                              //therefor set can Move to false, and come out of the for loop
+                              canMove = false;
+                              i = story.getDependencies().size();
+                          }
+                          
+                       }
+                       if(canMove)
+                       {
+                            board.getBoardColumn(colID).getStoryFromColumn(storyID).changeColumn(newColID);
+                            board.getBoardColumn(colID).prepareColumn();
+                            board.getBoardColumn(newColID).prepareColumn();
+                       }
+                   }
+                   else
+                   {
+                        board.getBoardColumn(colID).getStoryFromColumn(storyID).changeColumn(newColID);
+                        board.getBoardColumn(colID).prepareColumn();
+                        board.getBoardColumn(newColID).prepareColumn();
+                   }
+                }
+                else
+                {
+                    //story is in position 3 already, do not move forward
+                }
                 try
                 {
-                    board.getBoardColumn(colID).getStoryFromColumn(storyID).changeColumn(newColID);
-                    board.getBoardColumn(colID).prepareColumn();
-                    board.getBoardColumn(newColID).prepareColumn();
+                   
                 } catch (Exception e)
                 {
                     System.out.println("Exception message is " + e.getMessage());
@@ -200,7 +237,7 @@ public class BoardController extends HttpServlet
         }
         else if(action.equals("/viewBoardSettings"))
         {
-            dispatcher = this.getServletContext().getRequestDispatcher("/board/boardSetting.jspx");
+            dispatcher = this.getServletContext().getRequestDispatcher("/boardSetting.jspx");
         }
         else if(action.equals("/viewStoryDetails"))
         {
@@ -218,6 +255,7 @@ public class BoardController extends HttpServlet
                 story = board.getBoardColumn(colID).getStoryFromColumn(storyID);
             }
             session = request.getSession();
+            //story.updateStory();
             session.setAttribute("tmpStory", story);
             this.getServletContext().setAttribute("tmpStory", story);
             

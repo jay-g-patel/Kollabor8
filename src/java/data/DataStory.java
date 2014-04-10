@@ -60,7 +60,7 @@ public class DataStory
     
     public Story getStoryDetailsByID(int id)
     {
-        Story tmpStory = new Story();;
+        Story tmpStory = new Story();
         int statusID = 0;
         int type = 0;
         int user = 0;
@@ -78,7 +78,7 @@ public class DataStory
                     columnID = success.getInt(1);
                     type = success.getInt(2);
                     user = success.getInt(3);
-                    name = success.getString(4);
+                    name = success.getString(5);
                     //dependencies = success.getInt(5);
                     statusID = success.getInt(6);
                     
@@ -91,11 +91,13 @@ public class DataStory
         {
             System.out.println("Exception message is " + e.getMessage());
         }
+        ArrayList<Integer> dependentStories = new ArrayList<Integer>();
+        dependentStories = this.getDependantStoryList(id);
         tmpStory.setColumnID(columnID);
         tmpStory.setName(name);
         tmpStory.setType(type);
         tmpStory.setUser(user);
-        
+        tmpStory.setDependencies(dependentStories);
         return tmpStory;
         
     }
@@ -279,4 +281,29 @@ public class DataStory
         }
         return success;
     }
+    
+    public ArrayList<Integer> getDependantStoryList(int storyID)
+    {
+        ArrayList<Integer> storyList = new ArrayList<Integer>();
+        String query = "SELECT dependentStoryID FROM storydependency WHERE storyID = ?";
+        try
+        {
+        pstmt = nConnection.prepareStatement(query);
+        pstmt.setInt(1, storyID);
+        ResultSet ids = pstmt.executeQuery();
+        while(ids.next())
+            {
+                int sid = ids.getInt(1);
+                storyList.add(sid);
+
+            }
+            
+        }catch(SQLException e)
+        {
+            System.out.println("Exception message is " + e.getMessage());
+        }
+        return storyList;
+    }
+    
+   
 }

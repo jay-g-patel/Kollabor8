@@ -110,7 +110,9 @@ public class Column
                     {
                     tmpStory.enterCompletionDate(completionDate);
                     }
+//                    tmpStory.updateStory();
                     tmpStory.setColumnID(this.columnID);
+                    
                     storyArray[aID] = tmpStory;
                     aID++;
                 }

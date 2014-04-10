@@ -14,8 +14,10 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 import data.DataStory;
+import data.DataBoard;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -33,6 +35,7 @@ public class Story
     int columnID;
     String name = "";
     Date completionDate = null;
+    ArrayList <Integer> dependantStories = new ArrayList<Integer>();
 
     public Date getCompletionDate()
     {
@@ -71,12 +74,12 @@ public class Story
 
     public Story()
     {
-
+       
     }
 
     public Story(int sID)
     {
-        dataStory.getStoryDetailsByID(sID);
+       dataStory.getStoryDetailsByID(sID);
         
     }
     
@@ -214,5 +217,48 @@ public class Story
             this.name = storyDesc;
         }
         
+    }
+    
+//    public void updateStory()
+//    {
+//        Story sto = dataStory.getStoryDetailsByID(this.storyid);
+//        this.setDependencies(sto.dependantStories);
+//        this.setName(sto.name);
+//        
+//    }
+
+    public void setDependencies(ArrayList<Integer> dependentStories)
+    {
+        this.dependantStories = dependentStories;
+    }
+    
+    public ArrayList<Integer> getDependencies()
+    {
+        //this.updateStory();
+        return this.dependantStories;
+    }
+    
+    public boolean doesStoryHaveDependencies()
+    {
+        boolean hasDependencies = false;
+        if(dependantStories.size() > 0)
+        {
+            hasDependencies = true;
+        }
+         
+        return hasDependencies;
+    }
+    
+    public ArrayList<Story> getDependentStories()
+    {
+        ArrayList<Story> stories = new ArrayList<Story>();
+        DataBoard b = new DataBoard();
+       for(int i=0; i<dependantStories.size(); i++)
+       {
+          
+           Story x = b.getStoryByID(dependantStories.get(i));
+           stories.add(x);
+       }
+       return stories;
     }
 }
