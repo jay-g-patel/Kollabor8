@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
@@ -166,5 +167,30 @@ public class DataBoard
             System.out.println("Exception message is " + e.getMessage());
         }
             return s;
+    }
+
+    public ArrayList<Story> getBacklogStories(int boardID)
+    {
+        ArrayList<Story> backlogStories = new ArrayList<Story>();
+        getConnection();
+        String q = "SELECT * FROM story WHERE boardID = ? AND columnid IS NULL";
+        try
+        {
+        Connection connection = ds.getConnection();
+        pstmt = connection.prepareStatement(q);
+        pstmt.setInt(1, boardID);
+        ResultSet ids = pstmt.executeQuery();
+        while(ids.next())
+            {
+                Story s = new Story();
+                s.setName(ids.getString(5));
+                s.setStoryID(ids.getInt(1));
+                backlogStories.add(s);
+            }
+        }catch(SQLException e)
+        {
+            System.out.println("Exception message is " + e.getMessage());
+        }
+        return backlogStories;
     }
 }

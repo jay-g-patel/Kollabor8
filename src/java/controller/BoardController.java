@@ -276,9 +276,14 @@ public class BoardController extends HttpServlet
                 tmpStory.commitBacklogStory(storyDesc,group.getGroupID());
                 
                 session.removeAttribute("tmpStory");
-                response.sendRedirect("../backlog.jspx");
+                //response.sendRedirect("../backlog.jspx");
+                
+                
+                tmpStory = null;
+                
                 forward = false;  
                     }
+            session.setAttribute("board", board);
              dispatcher = this.getServletContext().getRequestDispatcher("/backlog.jspx");
         }
 

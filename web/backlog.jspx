@@ -28,7 +28,10 @@
                         </form>
                 </div>
                 <div id="backLogColumn">
-                    div2
+                   <c:forEach var="story" items="${board.backlogStories}">
+                       <input type="hidden" name="StoryID" value ="${story.storyID}" />
+                       <c:out value="${story.name}"/><br/>
+                  </c:forEach>
                 </div>
             </div>
             

@@ -140,5 +140,11 @@ public class Board
         Story s = this.getBoardColumn(colID).getStoryFromColumn(id);
         return s.getName();
     }
+
+    public ArrayList<Story> getBacklogStories()
+    {
+        ArrayList<Story> f = dataBoard.getBacklogStories(boardID);
+        return f;
+    }
     
 }
