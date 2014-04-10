@@ -261,6 +261,10 @@ public class BoardController extends HttpServlet
             
             dispatcher = this.getServletContext().getRequestDispatcher("/storyDetails.jspx");
         }
+        else if(action.equals("/viewBacklog"))
+        {
+             dispatcher = this.getServletContext().getRequestDispatcher("/backlog.jspx");
+        }
 
 if(forward)
 {

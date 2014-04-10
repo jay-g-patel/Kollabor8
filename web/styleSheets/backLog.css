@@ -1,0 +1,17 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 10-Apr-2014, 03:13:49
+    Author     : Jayshree
+*/
+
+#backLogColumn{
+    width:30%;
+    height:100%;
+    border:3px solid #D8D8D8;
+    float:left;
+    margin:5px 5px;
+}

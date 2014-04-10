@@ -72,8 +72,11 @@
         <jsp:body>
             <div>
             <div id="headerFile"><jsp:directive.include file="/header.jspx" /></div>
-            <div id="settingsDiv"><form method="POST" action="/kollabor8/board/viewBoardSettings">
+<!--            <div id="settingsDiv"><form method="POST" action="/kollabor8/board/viewBoardSettings">
                                         <input type="submit" value ="View Settings"/>
+                                    </form> </div>-->
+<div id="backlogDiv"><form method="POST" action="/kollabor8/board/viewBacklog">
+                                        <input type="submit" value ="View backlog"/>
                                     </form> </div>
             </div>
             <div>
