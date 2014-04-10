@@ -189,6 +189,14 @@ public class Story
             this.columnID = col;
         }
     }
+    
+    public void commitBacklogStory(String csName, int groupID)
+    {
+     int sID = dataStory.addNewStoryToBacklog(csName, groupID); 
+     setStoryID(sID);
+     setName(csName);
+     
+    }
 
     public void commitStory(String csName, int csCID)
     {

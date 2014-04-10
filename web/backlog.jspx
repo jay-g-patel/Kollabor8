@@ -9,9 +9,9 @@
     xmlns:c="http://java.sun.com/jsp/jstl/core"
     xmlns:f="http://java.sun.com/jsp/jstl/fmt"
     version="2.0">
-<head>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/styleSheets/backLog.css" type="text/css"/>
-</head>
+    <head>
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/styleSheets/backLog.css" type="text/css"/>
+    </head>
     <jsp:directive.page contentType="text/html" pageEncoding="UTF-8"/>
 
     <!-- any content can be specified here, e.g.: -->
@@ -20,7 +20,12 @@
         <jsp:body>Backlog DUDE!!
             <div>
                 <div id="backLogColumn">
-                    div1
+                    <form method="POST" action="/kollabor8/board/viewBacklog">
+                            Story Description : <input type="text" name="storyName"/><br/>
+                           
+                            <input type="hidden" name="viewBacklogAction" value="addBacklogStory"/><br/>
+                            <input type="submit" id="create_Story" value ="Add This Story"/><br/>
+                        </form>
                 </div>
                 <div id="backLogColumn">
                     div2

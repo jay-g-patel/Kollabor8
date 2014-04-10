@@ -81,6 +81,7 @@ public class BoardController extends HttpServlet
                 Column tmpColumn = new Column();
                 tmpColumn.commitNewColumn(board.getBoardID(), columnName);
             }
+                      
             else if(viewBoardAction != null && viewBoardAction.equals("addStory"))
             {
                 String storyDesc = request.getParameter("storyName");
@@ -263,6 +264,21 @@ public class BoardController extends HttpServlet
         }
         else if(action.equals("/viewBacklog"))
         {
+            String viewBacklogAction = request.getParameter("viewBacklogAction");
+            if(viewBacklogAction != null && viewBacklogAction.equals("addBacklogStory"))
+            {
+                String storyDesc = request.getParameter("storyName");
+                                
+                Story tmpStory = null;
+                //get the right story to work with
+                
+                tmpStory = new Story();
+                tmpStory.commitBacklogStory(storyDesc,group.getGroupID());
+                
+                session.removeAttribute("tmpStory");
+                response.sendRedirect("../backlog.jspx");
+                forward = false;  
+                    }
              dispatcher = this.getServletContext().getRequestDispatcher("/backlog.jspx");
         }
 

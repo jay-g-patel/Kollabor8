@@ -58,6 +58,8 @@ public class DataStory
     
     }
     
+    
+    
     public Story getStoryDetailsByID(int id)
     {
         Story tmpStory = new Story();
@@ -158,6 +160,45 @@ public class DataStory
         }
         return colID;
     }
+    
+    public int addNewStoryToBacklog(String sName, int groupID)
+    {
+        int sID = 0;
+         try
+        {
+            // Obtain our environment naming context
+            Context initCtx = new InitialContext();
+            Context envCtx = (Context) initCtx.lookup("java:comp/env");
+            // Look up our data source
+            ds = (DataSource) envCtx.lookup("jdbc/fypDatabase");
+        } catch (Exception e)
+        {
+            System.out.println("Exception message is " + e.getMessage());
+        }
+        try
+        {
+            Connection connection = ds.getConnection();
+            String sql = "call CreateNewBacklogStory(?,?,?);";
+            CallableStatement cStmt = connection.prepareCall(sql);
+            
+            cStmt.setInt(1, groupID);
+            cStmt.setString(2, sName);
+            
+             cStmt.registerOutParameter(3, java.sql.Types.INTEGER);
+            
+            cStmt.executeUpdate();
+
+             sID = cStmt.getInt(3);
+
+        }
+        catch(Exception e)
+        {
+            
+            String s = e.getMessage();
+        }
+        return sID;
+    }
+
     
     public int addNewStoryToColumn(String desc, int colID)
     {
