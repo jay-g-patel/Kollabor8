@@ -12,6 +12,7 @@ import static java.lang.Integer.parseInt;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -213,7 +214,7 @@ public class BoardController extends HttpServlet
                     System.out.println("Exception message is " + e.getMessage());
                 }
             }
-             board.createBoard();
+             //board.createBoard();
              session.setAttribute("sessionBoard", board);
             this.getServletContext().setAttribute("sessionBoard", board);
             if(forward){
@@ -255,6 +256,22 @@ public class BoardController extends HttpServlet
                 board.getBoardColumn(colID).prepareColumn();
                 story = board.getBoardColumn(colID).getStoryFromColumn(storyID);
             }
+            
+            
+            
+            if(story.doesStoryHaveDependencies())
+            {
+                ArrayList<Story> depsto = board.getDependentStoriesFromList(story.getDependencies());
+                session.setAttribute("dependentStories", depsto);
+                this.getServletContext().setAttribute("dependentStories", depsto);
+                
+            }
+            else
+            {
+                //ArrayList<Story> depsto = board.getDependentStoriesFromList(story.getDependencies());
+                session.setAttribute("dependentStories", null);
+                this.getServletContext().setAttribute("dependentStories", null);
+            }
             session = request.getSession();
             //story.updateStory();
             session.setAttribute("tmpStory", story);
@@ -283,7 +300,7 @@ public class BoardController extends HttpServlet
                 
                 forward = false;  
                     }
-            session.setAttribute("board", board);
+                session.setAttribute("board", board);
              dispatcher = this.getServletContext().getRequestDispatcher("/backlog.jspx");
         }
 

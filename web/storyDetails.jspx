@@ -29,8 +29,8 @@
                       User = <c:out value="${tmpStory.userName}"/>
                   </c:if>
                       <br/>
-                  <c:forEach var="dependantStory" items="${tmpStory.dependentStories}">
-                      Dependent story - <c:out value="${dependantStory.name}"/><br/>
+                  <c:forEach var="dependentStories" items="${dependentStories}">
+                      Dependent story - <c:out value="${dependentStories.name}"/><br/>
                   </c:forEach>
                       <form method="POST" action="/kollabor8/board/editStory">
                       <input type="submit" value="Edit Story"/>

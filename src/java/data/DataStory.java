@@ -325,6 +325,7 @@ public class DataStory
     
     public ArrayList<Integer> getDependantStoryList(int storyID)
     {
+        getConnection();
         ArrayList<Integer> storyList = new ArrayList<Integer>();
         String query = "SELECT dependentStoryID FROM storydependency WHERE storyID = ?";
         try

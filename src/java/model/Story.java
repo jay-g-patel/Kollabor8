@@ -249,24 +249,22 @@ public class Story
     public boolean doesStoryHaveDependencies()
     {
         boolean hasDependencies = false;
-        if(dependantStories.size() > 0)
-        {
-            hasDependencies = true;
-        }
+
+        
+            
+            setDependencies(dataStory.getDependantStoryList(this.storyid));
+            
+           if(this.dependantStories.size() > 0)
+           {
+               hasDependencies = true;
+           }
+
          
         return hasDependencies;
     }
     
-    public ArrayList<Story> getDependentStories()
+    public void getDependentStories()
     {
-        ArrayList<Story> stories = new ArrayList<Story>();
-        DataBoard b = new DataBoard();
-       for(int i=0; i<dependantStories.size(); i++)
-       {
-          
-           Story x = b.getStoryByID(dependantStories.get(i));
-           stories.add(x);
-       }
-       return stories;
+        setDependencies(this.dataStory.getDependantStoryList(this.storyid));
     }
 }

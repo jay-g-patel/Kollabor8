@@ -97,5 +97,153 @@ public class UsersTest {
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
+
+    /**
+     * Test of getUserIDL method, of class Users.
+     */
+    @Test
+    public void testGetUserIDL()
+    {
+        System.out.println("getUserIDL");
+        Users instance = new Users();
+        int expResult = 0;
+        int result = instance.getUserIDL();
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of setUserIDL method, of class Users.
+     */
+    @Test
+    public void testSetUserIDL()
+    {
+        System.out.println("setUserIDL");
+        int userID = 0;
+        Users instance = new Users();
+        instance.setUserIDL(userID);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of getUserTypeL method, of class Users.
+     */
+    @Test
+    public void testGetUserTypeL()
+    {
+        System.out.println("getUserTypeL");
+        Users instance = new Users();
+        int expResult = 0;
+        int result = instance.getUserTypeL();
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of setUserTypeL method, of class Users.
+     */
+    @Test
+    public void testSetUserTypeL()
+    {
+        System.out.println("setUserTypeL");
+        int userType = 0;
+        Users instance = new Users();
+        instance.setUserTypeL(userType);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of getGroupIDL method, of class Users.
+     */
+    @Test
+    public void testGetGroupIDL()
+    {
+        System.out.println("getGroupIDL");
+        Users instance = new Users();
+        int expResult = 0;
+        int result = instance.getGroupIDL();
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of setGroupIDL method, of class Users.
+     */
+    @Test
+    public void testSetGroupIDL()
+    {
+        System.out.println("setGroupIDL");
+        int groupID = 0;
+        Users instance = new Users();
+        instance.setGroupIDL(groupID);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of getNameL method, of class Users.
+     */
+    @Test
+    public void testGetNameL()
+    {
+        System.out.println("getNameL");
+        Users instance = new Users();
+        String expResult = "";
+        String result = instance.getNameL();
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of setNameL method, of class Users.
+     */
+    @Test
+    public void testSetNameL()
+    {
+        System.out.println("setNameL");
+        String name = "";
+        Users instance = new Users();
+        instance.setNameL(name);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of getGroupID method, of class Users.
+     */
+    @Test
+    public void testGetGroupID()
+    {
+        System.out.println("getGroupID");
+        int userID = 0;
+        Users instance = new Users();
+        int expResult = 0;
+        int result = instance.getGroupID(userID);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of getUserNameByID method, of class Users.
+     */
+    @Test
+    public void testGetUserNameByID()
+    {
+        System.out.println("getUserNameByID");
+        int userID = 0;
+        Users instance = new Users();
+        String expResult = "";
+        String result = instance.getUserNameByID(userID);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
     
 }

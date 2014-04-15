@@ -84,6 +84,7 @@ public class Board
     
     public int getColumnIDAtPosition(int i)
     {
+        i--;
         return boardColumnsArray[i].getColumnID();
     }
 
@@ -128,8 +129,10 @@ public class Board
     
     public Story getStoryByID(int id)
     {
-        int colID = getStorycolumnPositionByID(id);
-        Story s = this.getBoardColumn(colID).getStoryFromColumn(id);
+        int colposition = getStorycolumnPositionByID(id);
+        Column c = this.boardColumnsArray[colposition-1];
+        //Column c = getBoardColumn(colID);
+        Story s = c.getStoryFromColumn(id);
         return s;
     }
     
@@ -145,6 +148,16 @@ public class Board
     {
         ArrayList<Story> f = dataBoard.getBacklogStories(boardID);
         return f;
+    }
+    
+    public ArrayList<Story> getDependentStoriesFromList(ArrayList<Integer> dependentStoryIDList)
+    {
+        ArrayList<Story> dependantStories = new ArrayList<Story>();
+        for(int i : dependentStoryIDList)
+        {
+            dependantStories.add(getStoryByID(i));
+        }
+        return dependantStories;
     }
     
 }
